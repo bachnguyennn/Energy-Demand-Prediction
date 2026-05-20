@@ -16,6 +16,37 @@ The project evaluates four diverse modeling approaches to establish a robust bas
 - **Validation Strategy:** Evaluates all models using **Walk-Forward Validation** (Time-series Cross-validation) with a 3-fold split and 30-day test size, strictly preventing future data leakage.
 - **Evaluation Metrics:** MAE, RMSE, and MAPE.
 
+## Results & Model Comparison
+
+The models were evaluated using 3-fold Walk-Forward Validation (each test split spanning 30 days of hourly data). The aggregated results across all folds are summarized below:
+
+| Model | MAE (MW) | RMSE (MW) | MAPE (%) |
+|-------|----------|-----------|----------|
+| **Prophet (Baseline)** | 1,396.96 | 1,769.79 | 9.00% |
+| **XGBoost** | **125.09** | **161.94** | **0.81%** |
+| **LSTM** | 170.69 | 222.05 | 1.11% |
+| **Temporal Fusion Transformer (TFT)** | 896.78 | 1,060.03 | 5.53% |
+
+*Best performing model highlighted in bold.*
+
+### Key Insights
+
+1. **Auto-regressive Dominance (XGBoost & LSTM):** The extremely low error rates of XGBoost (MAPE 0.81%) and LSTM (MAPE 1.11%) highlight the critical importance of short-term history (`lag_1h`). Electricity load is highly auto-regressive; knowing the load from the previous hour makes predicting the next hour highly accurate.
+2. **Prophet's Smooth Baselines:** Prophet (MAPE 9.00%) captures the macro trends and long-term daily/weekly seasonality well but misses the sharp hourly deviations because it is a regression model based on curve-fitting rather than an auto-regressive model.
+3. **TFT Underfitting:** The TFT model (MAPE 5.53%) shows promising results but suffered from underfitting in this run due to restricted epoch limits (3 epochs) and small batch training. With longer training and proper hyperparameter tuning, its performance as a multi-horizon forecaster is expected to improve significantly.
+
+### Visualizations
+Below are the key plots generated from the evaluation pipeline (run the Jupyter notebook or `reports/generate_plots.py` to generate these locally):
+
+#### 1. Model Comparison Chart
+![Model Comparison](reports/figures/model_comparison.png)
+
+#### 2. Predictions vs Actuals (XGBoost & LSTM)
+![Predictions vs Actuals](reports/figures/predictions_vs_actuals.png)
+
+#### 3. XGBoost SHAP Feature Importance
+![XGBoost SHAP](reports/figures/xgboost_shap.png)
+
 ## Project Structure
 ```text
 electricity_demand_forecasting/
