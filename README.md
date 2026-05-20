@@ -39,13 +39,13 @@ The models were evaluated using 3-fold Walk-Forward Validation (each test split 
 Below are the key plots generated from the evaluation pipeline (run the Jupyter notebook or `reports/generate_plots.py` to generate these locally):
 
 #### 1. Model Comparison Chart
-![Model Comparison](reports/figures/model_comparison.png)
+![Bar chart comparing MAE, RMSE, and MAPE across Prophet, XGBoost, LSTM, and Temporal Fusion Transformer models](reports/figures/model_comparison.png)
 
 #### 2. Predictions vs Actuals (XGBoost & LSTM)
-![Predictions vs Actuals](reports/figures/predictions_vs_actuals.png)
+![Time-series plot of XGBoost and LSTM predicted electricity demand versus actual load for a representative 7-day test window](reports/figures/predictions_vs_actuals.png)
 
 #### 3. XGBoost SHAP Feature Importance
-![XGBoost SHAP](reports/figures/xgboost_shap.png)
+![SHAP summary plot showing top feature importances for the XGBoost hourly electricity demand forecasting model](reports/figures/xgboost_shap.png)
 
 ## Project Structure
 ```text
